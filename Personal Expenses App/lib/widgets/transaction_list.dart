@@ -5,13 +5,14 @@ import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> userTransaction;
+  final Function deleteTx;
 
-  TransactionList(this.userTransaction);
+  TransactionList(this.userTransaction, this.deleteTx);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 300,
+        height: 450,
         child: userTransaction.isEmpty
             ? Column(
                 children: [
@@ -33,24 +34,32 @@ class TransactionList extends StatelessWidget {
             : ListView.builder(
                 itemBuilder: (ctx, index) {
                   return Card(
-                    margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-                    elevation: 5,
-                    child: ListTile(
-                      leading: CircleAvatar(
-                          radius: 30,
-                          child: Padding(
-                              padding: EdgeInsets.all(6),
-                              child: FittedBox(
-                                  child: Text(
-                                      '\$${userTransaction[index].amount}')))),
-                      title: Text(
-                        userTransaction[index].title,
-                        style: Theme.of(context).textTheme.title,
-                      ),
-                      subtitle: Text(DateFormat.yMMMd()
-                          .format(userTransaction[index].date)),
-                    ),
-                  );
+                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                      elevation: 5,
+                      child: ListTile(
+                        leading: CircleAvatar(
+                            radius: 30,
+                            child: Padding(
+                                padding: EdgeInsets.all(6),
+                                child: FittedBox(
+                                    child: Text(
+                                        '\$${userTransaction[index].amount}')))),
+                        title: Text(
+                          userTransaction[index].title,
+                          style: Theme.of(context).textTheme.title,
+                        ),
+                        subtitle: Text(
+                          DateFormat.yMMMd()
+                              .format(userTransaction[index].date),
+                        ),
+                        trailing: IconButton(
+                            icon: Icon(
+                              Icons.delete,
+                              color: Theme.of(context).errorColor,
+                            ),
+                            onPressed: () =>
+                                deleteTx(userTransaction[index].id)),
+                      ));
                 },
                 itemCount: userTransaction.length,
               ));
