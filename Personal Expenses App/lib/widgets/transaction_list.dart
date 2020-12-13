@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../models/transaction.dart';
+import './transaction_item.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> userTransaction;
@@ -35,40 +35,8 @@ class TransactionList extends StatelessWidget {
               })
             : ListView.builder(
                 itemBuilder: (ctx, index) {
-                  return Card(
-                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-                      elevation: 5,
-                      child: ListTile(
-                        leading: CircleAvatar(
-                            radius: 30,
-                            child: Padding(
-                                padding: EdgeInsets.all(6),
-                                child: FittedBox(
-                                    child: Text(
-                                        '\$${userTransaction[index].amount}')))),
-                        title: Text(
-                          userTransaction[index].title,
-                          style: Theme.of(context).textTheme.title,
-                        ),
-                        subtitle: Text(
-                          DateFormat.yMMMd()
-                              .format(userTransaction[index].date),
-                        ),
-                        trailing: MediaQuery.of(context).size.width > 360
-                            ? FlatButton.icon(
-                                icon: Icon(Icons.delete),
-                                label: Text('Delete'),
-                                textColor: Theme.of(context).errorColor,
-                                onPressed: () =>
-                                    deleteTx(userTransaction[index].id))
-                            : IconButton(
-                                icon: Icon(
-                                  Icons.delete,
-                                  color: Theme.of(context).errorColor,
-                                ),
-                                onPressed: () =>
-                                    deleteTx(userTransaction[index].id)),
-                      ));
+                  return TransactionItem(
+                      transaction: userTransaction[index], deleteTx: deleteTx);
                 },
                 itemCount: userTransaction.length,
               ));
