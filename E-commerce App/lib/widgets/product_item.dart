@@ -1,0 +1,47 @@
+import 'package:MyShop/screens/product_detail_screen.dart';
+import 'package:flutter/material.dart';
+
+class ProductItem extends StatelessWidget {
+  final String imageUrl;
+  final String id;
+  final String title;
+  ProductItem(this.id, this.title, this.imageUrl);
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: GridTile(
+        child: GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (ctx) => ProductDetailScreen(title),
+              ),
+            );
+          },
+          child: Image.network(
+            imageUrl,
+            fit: BoxFit.cover,
+          ),
+        ),
+        footer: GridTileBar(
+          leading: IconButton(
+            icon: Icon(Icons.favorite),
+            color: Theme.of(context).accentColor,
+            onPressed: () {},
+          ),
+          backgroundColor: Colors.black87,
+          title: Text(
+            title,
+            textAlign: TextAlign.center,
+          ),
+          trailing: IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: () {},
+            color: Theme.of(context).accentColor,
+          ),
+        ),
+      ),
+    );
+  }
+}
